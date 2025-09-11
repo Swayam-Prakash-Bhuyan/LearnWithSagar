@@ -29,7 +29,7 @@ This exercise gave me hands-on experience with distributed version control syste
 
 ---
 
-## ✅ Environment Setup (Windows)
+## ✅ Added random lines for merge conflict Setup (Windows)
 
 ### Installing Git on Windows
 
