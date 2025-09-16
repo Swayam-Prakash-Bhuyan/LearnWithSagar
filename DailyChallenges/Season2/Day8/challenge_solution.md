@@ -1,11 +1,10 @@
-Here is a complete, well-structured **solution file** for Day 8 of the Daily DevOps + SRE Challenge Series – Season 2. It includes documentation, commands, screenshots placeholders, challenges faced, and answers to theoretical questions.
 
 ---
 
 # ✅ **Day 8 – Kickstart Your Journey with Linux & Virtualization – Solution File**
 
-**Name:** \[Your Name]
-**Date:** \[Enter Date]
+**Name:** Swayam Prakash Bhuyan
+**Date:** 15-September-2025
 **Challenge:** Day 8 – Linux & Virtualization
 
 ---
