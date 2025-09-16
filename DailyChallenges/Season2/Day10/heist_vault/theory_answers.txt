@@ -1,0 +1,30 @@
+1. Purpose of /var and why it is mounted separately:
+   The /var directory stores variable data such as logs, caches, and runtime files. Mounting it on a separate device helps prevent the system disk from filling up, improves performance, and provides better security isolation.
+
+2. Absolute vs relative paths:
+   Absolute paths start from the root directory "/". Example: /home/user/docs
+   Relative paths are based on the current directory. Example: ../../home/user/docs (if starting from /usr/share)
+
+3. Wildcards and pattern matching:
+   The command 'ls f[io]le*' will match files that start with 'f', followed by either 'i' or 'o', then 'le' and anything after it. Output: file1, fole2, file3
+
+4. Effect of 'chmod 640 file.txt':
+   This sets permissions so that the owner can read and write (rw-), the group can read only (r--), and others have no access (---).
+
+5. Purpose of mounting /home with the 'noexec' option:
+   It prevents execution of files from the /home partition. This is used as a security measure to avoid running malicious scripts from user directories.
+
+6. Difference between 'cp -a' and 'cp -r':
+   'cp -a' copies directories while preserving file attributes like timestamps, permissions, and links. 'cp -r' only copies recursively without preserving these attributes.
+
+7. Difference between hard links and symbolic links:
+   A hard link points to the same inode and must be on the same filesystem. A symbolic link points to the path of the target. Creating a hard link to /etc/passwd in a home directory would fail due to cross-filesystem restrictions.
+
+8. Difference between '>>' and '>':
+   '>>' appends content to the file, while '>' overwrites the existing file.
+
+9. Comparing mount, df -h, and findmnt:
+   'mount' shows mounted devices, 'df -h' shows available disk space, and 'findmnt' shows the hierarchy of mounted filesystems. To check disk space, 'df -h' is most suitable.
+
+10. SGID (Set Group ID) effect:
+    When a directory has the SGID bit set, files created within inherit the group ownership of the directory instead of the user’s default group.
