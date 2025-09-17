@@ -37,6 +37,8 @@ pwd
 **Notes:**
 Used absolute and relative paths to move around directories and return to home using shortcuts.
 
+![alt text](image.png)
+
 ---
 
 ### ✅ **Task 2 – Hideout Setup**
@@ -50,10 +52,7 @@ ls -ld ~/heist_vault/newfiles
 ls -a ~/heist_vault/newfiles
 ```
 
-**Expected Output:**
-
-* `ls -ld` shows `drwx------`.
-* `ls -a` shows `.secret` and `decoy.txt` along with `.` and `..`.
+![alt text](image-1.png)
 
 ---
 
@@ -65,6 +64,7 @@ losetup /dev/loop0 /root/disk.img
 
 fdisk /dev/loop0
 # Use n → p → 1 → defaults → w
+partprobe /dev/loop0
 
 mkfs.ext4 /dev/loop0p1
 
@@ -78,7 +78,7 @@ lsblk
 **Notes:**
 Simulated a 1GB disk using loop devices. Partitioned, formatted, mounted at `/data`, and verified space availability.
 
-**Screenshot placeholder:** Show `df -h` with `/data` and `lsblk` output.
+![alt text](image-2.png)
 
 ---
 
