@@ -124,7 +124,7 @@ chmod -R a-w projects/
 **Notes:**
 Handled file copying, movement, deletion, directory creation, and permission changes under time pressure.
 
-**Screenshot placeholder:** Show permissions of `house2` and directory structure.
+![alt text](image-3.png)
 
 ---
 
@@ -138,7 +138,8 @@ mkdir /data/shared_space
 chgrp agents /data/shared_space
 chmod 770 /data/shared_space
 chmod g+s /data/shared_space
-
+sudo usermod -aG agents alice
+sudo usermod -aG agents bob
 sudo -u alice touch /data/shared_space/alice_file.txt
 sudo -u bob touch /data/shared_space/bob_file.txt
 
@@ -147,6 +148,7 @@ ls -l /data/shared_space
 
 **Notes:**
 Created group, users, shared space with permissions and SGID bit. Verified group ownership.
+![alt text](image-4.png)
 
 ---
 
