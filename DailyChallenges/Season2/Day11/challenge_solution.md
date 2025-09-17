@@ -1,4 +1,3 @@
-Got it 👍 — for every task, we can add a **📸 Screenshot Placeholder** section where you’ll paste your terminal screenshots after running the commands. Here’s an updated structure of your `solution.md` with screenshot placeholders added:
 
 ---
 
