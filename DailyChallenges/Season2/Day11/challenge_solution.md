@@ -34,8 +34,7 @@ awk 'NR==5' myfile.txt
 
 ✅ Output: `Line 5: IP address: 192.168.1.100. Target server.`
 
-📸 **Screenshot Placeholder:**
-`![Decoding the Intelligence Screenshot](screenshots/task1.png)`
+![alt text](image.png)
 
 ---
 
@@ -45,8 +44,7 @@ awk 'NR==5' myfile.txt
 grep -rl "192.168.1.100" ~/textlab
 ```
 
-📸 **Screenshot Placeholder:**
-`![Hunting the Target Screenshot](screenshots/task2.png)`
+![alt text](image-1.png)
 
 ---
 
@@ -56,8 +54,7 @@ grep -rl "192.168.1.100" ~/textlab
 sed -i 's/root/Administrator/' myfile.txt
 ```
 
-📸 **Screenshot Placeholder:**
-`![Reversing the Sabotage Screenshot](screenshots/task3.png)`
+![alt text](image-2.png)
 
 ---
 
@@ -67,8 +64,7 @@ sed -i 's/root/Administrator/' myfile.txt
 grep -Eo '[0-9]+MB' myfile.txt | sort -nr
 ```
 
-📸 **Screenshot Placeholder:**
-`![Memory Optimization Screenshot](screenshots/task4.png)`
+![alt text](image-3.png)
 
 ---
 
@@ -78,8 +74,7 @@ grep -Eo '[0-9]+MB' myfile.txt | sort -nr
 ps aux | awk '{print $6}'
 ```
 
-📸 **Screenshot Placeholder:**
-`![System Recon Screenshot](screenshots/task5.png)`
+![alt text](image-4.png)
 
 ---
 
@@ -89,8 +84,7 @@ ps aux | awk '{print $6}'
 sed -i '6d' myfile.txt
 ```
 
-📸 **Screenshot Placeholder:**
-`![Deleting Sensitive Info Screenshot](screenshots/task6.png)`
+![alt text](image-5.png)
 
 ---
 
@@ -99,11 +93,19 @@ sed -i '6d' myfile.txt
 ### 1. Swapping Intel
 
 ```bash
-sed -n '1,2p;4p;3p;5,$p' myfile.txt > tmp && mv tmp myfile.txt
+#sed '3{h;d};4{G}' myfile.txt > tmp && mv tmp myfile.txt
+#sed -n '1,2p;4p;3p;5,$p' myfile.txt > tmp && mv tmp myfile.txt
+awk 'NR==1{a=$0}
+     NR==2{b=$0}
+     NR==3{c=$0}
+     NR==4{d=$0}
+     NR==5{e=$0}
+     NR==6{f=$0}
+     NR==7{g=$0}
+     END{print a ORS b ORS d ORS c ORS e ORS f ORS g}' myfile.txt
 ```
 
-📸 **Screenshot Placeholder:**
-`![Swapping Intel Screenshot](screenshots/task7.png)`
+![alt text](image-6.png)
 
 ---
 
