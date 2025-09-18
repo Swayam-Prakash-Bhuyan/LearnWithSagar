@@ -110,8 +110,7 @@ find ~/textlab/logs -name "*.log" -size +1M -print
 tar -czvf logs_archive.tar.gz ~/textlab/logs/log1.log
 ```
 
-📸 **Screenshot Placeholder:**
-`![Archiving Enemy Logs Screenshot](screenshots/task8.png)`
+image
 
 ---
 
@@ -121,9 +120,7 @@ tar -czvf logs_archive.tar.gz ~/textlab/logs/log1.log
 grep -i "error" ~/textlab/logs/log1.log | tr '[:space:]' '\n' | sort | uniq -c
 ```
 
-📸 **Screenshot Placeholder:**
-`![Finding Patterns Screenshot](screenshots/task9.png)`
-
+image
 ---
 
 ### 4. Alerting the Team
@@ -133,17 +130,7 @@ grep --color=always -r "password" ~/textlab
 grep -r "password" ~/textlab | mail -s "⚠️ ALERT: Password Found" you@example.com
 ```
 
-📸 **Screenshot Placeholder:**
-`![Alerting the Team Screenshot](screenshots/task10.png)`
-
----
-
-## 📌 Submission
-
-* Save as `solution.md`.
-* Place screenshots in `screenshots/` folder.
-* Update each placeholder with your actual file path.
-* Push to GitHub.
+image
 
 ---
 
