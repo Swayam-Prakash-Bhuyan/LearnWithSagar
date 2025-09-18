@@ -95,14 +95,8 @@ sed -i '6d' myfile.txt
 ```bash
 #sed '3{h;d};4{G}' myfile.txt > tmp && mv tmp myfile.txt
 #sed -n '1,2p;4p;3p;5,$p' myfile.txt > tmp && mv tmp myfile.txt
-awk 'NR==1{a=$0}
-     NR==2{b=$0}
-     NR==3{c=$0}
-     NR==4{d=$0}
-     NR==5{e=$0}
-     NR==6{f=$0}
-     NR==7{g=$0}
-     END{print a ORS b ORS d ORS c ORS e ORS f ORS g}' myfile.txt
+awk 'NR==3{third=$0; next} NR==4{print $0; print third; next} {print}' myfile.txt > tmp
+mv tmp myfile.txt
 ```
 
 ![alt text](image-6.png)
