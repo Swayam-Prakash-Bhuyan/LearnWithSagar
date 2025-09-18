@@ -179,31 +179,75 @@ ls -l
 
 **Notes:**
 Demonstrated hard and symbolic links, link counts, and recovery from deletion.
+![alt text](image-5.png)
 
 ---
 
 ### ✅ **Task 7 – Archiving Secrets**
 
 ```bash
+
+# 1️⃣ Create a tar archive of /etc
 tar cvf /root/etc.tar /etc
+# 'cvf' = create archive, verbose, specify file
+# Result: /root/etc.tar containing all files from /etc
+
+# 2️⃣ Check the type of tar archive
 file /root/etc.tar
+# Shows: POSIX tar archive
 
+# 3️⃣ Compress the tar archive using gzip
 gzip /root/etc.tar
-tar tvf /root/etc.tar.gz
+# Result: /root/etc.tar.gz
+# Original /root/etc.tar is removed (default gzip behavior)
 
-tar xvf /root/etc.tar.gz ./etc/hosts -C /root
+# 4️⃣ List contents of the compressed archive
+tar tvf /root/etc.tar.gz
+# 't' = list, 'v' = verbose, 'f' = archive file
+# Lists all files in /etc.tar.gz
+
+# 5️⃣ Extract a specific file (hosts) to /root
+# First check exact path inside archive:
+tar tzf /root/etc.tar.gz | grep hosts
+# Usually path is 'etc/hosts'
+
+# Correct extraction:
+mkdir -p /root/etc      # ensure parent directory exists
+tar xvf /root/etc.tar.gz -C /root etc/hosts
+# Extracts 'etc/hosts' to '/root/etc/hosts'
+
+# Verify extraction
 ls -R /root/etc/ | grep hosts
 
+# 6️⃣ Decompress the entire gzip archive back to tar
 gzip -d /root/etc.tar.gz
-tar xvf /root/etc.tar ./etc/passwd -C /tmp
+# Result: /root/etc.tar
+
+# 7️⃣ Extract specific file (passwd) to /tmp
+# Check exact path in archive:
+tar tvf /root/etc.tar | grep passwd
+# Usually path: 'etc/passwd'
+
+# Ensure parent directory exists
+mkdir -p /tmp/etc
+tar xvf /root/etc.tar -C /tmp etc/passwd
+# Extracts '/tmp/etc/passwd'
+
+# Verify
 ls -l /tmp/etc/passwd
 
+# 8️⃣ Create a tar archive of /home using bzip2 compression
 tar cjf /root/homes.tar.bz2 /home
+# 'c' = create, 'j' = bzip2 compression, 'f' = file
+
+# 9️⃣ Clean up all tar, gz, bz2 files from /root
 rm -f /root/*.tar /root/*.gz /root/*.bz2
+
 ```
 
 **Notes:**
 Archived, compressed, extracted, and cleaned up system directories.
+![alt text](image-6.png)
 
 ---
 
@@ -215,10 +259,10 @@ sudo -i
 tar cvf /root/essentials.tar /home /etc
 cp /root/essentials.tar /tmp/
 ln /tmp/essentials.tar /essentials.tar
-mv /essentials.tar /archive.tar
-ln -s /archive.tar /root/link.tar
+mv essentials.tar archive.tar
+ln -s archive.tar /root/link.tar
 
-rm /archive.tar
+rm archive.tar
 ls -l /root/link.tar  # Broken link
 
 rm /root/link.tar
@@ -227,6 +271,7 @@ gzip /root/essentials.tar
 
 **Notes:**
 Escalated to root, handled archive operations, and explored hard and soft link behavior.
+![alt text](image-7.png)
 
 ---
 
