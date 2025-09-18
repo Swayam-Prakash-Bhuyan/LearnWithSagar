@@ -89,6 +89,26 @@ sed -i '6d' myfile.txt
 ---
 
 ## 🎯 Advanced Missions
+```bash 
+## Create lab directory
+mkdir -p ~/textlab/logs
+
+# Create a sample text file for editing
+cat > ~/textlab/myfile.txt <<'EOF'
+Line 1: This is a test file. Initializing systems...
+Line 2: Administrator access granted. Beware of rogue agents.
+Line 3: Memory usage: 500MB. System stable.
+Line 4: Error log entry: Unauthorized access attempt detected.
+Line 5: Finalizing mission-critical protocols.
+EOF
+
+### Create multiple log files (mix of small and large)
+echo "error: disk full" > ~/textlab/logs/log1.log
+for i in {1..100000}; do echo "ERROR connection lost at $(date)" >> ~/textlab/logs/log1.log; done
+
+echo "This is a small harmless log" > ~/textlab/logs/log2.log
+dd if=/dev/urandom of=~/textlab/logs/log3.log bs=1M count=2  # 2MB random log file
+```
 
 ### 1. Swapping Intel
 
