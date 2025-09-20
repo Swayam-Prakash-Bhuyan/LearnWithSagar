@@ -32,8 +32,6 @@ sed -n '5p' myfile.txt
 awk 'NR==5' myfile.txt
 ```
 
-✅ Output: `Line 5: IP address: 192.168.1.100. Target server.`
-
 ![alt text](image.png)
 
 ---
@@ -90,7 +88,7 @@ sed -i '6d' myfile.txt
 
 ## 🎯 Advanced Missions
 ```bash 
-## Create lab directory
+# Create lab directory
 mkdir -p ~/textlab/logs
 
 # Create a sample text file for editing
@@ -102,9 +100,9 @@ Line 4: Error log entry: Unauthorized access attempt detected.
 Line 5: Finalizing mission-critical protocols.
 EOF
 
-### Create multiple log files (mix of small and large)
+# Create multiple log files (mix of small and large)
 echo "error: disk full" > ~/textlab/logs/log1.log
-for i in {1..100000}; do echo "ERROR connection lost at $(date)" >> ~/textlab/logs/log1.log; done
+for i in {1..500}; do echo "ERROR connection lost at $(date)" >> ~/textlab/logs/log1.log; done
 
 echo "This is a small harmless log" > ~/textlab/logs/log2.log
 dd if=/dev/urandom of=~/textlab/logs/log3.log bs=1M count=2  # 2MB random log file
@@ -130,7 +128,7 @@ find ~/textlab/logs -name "*.log" -size +1M -print
 tar -czvf logs_archive.tar.gz ~/textlab/logs/log1.log
 ```
 
-image
+![alt text](image-7.png)
 
 ---
 
@@ -140,7 +138,8 @@ image
 grep -i "error" ~/textlab/logs/log1.log | tr '[:space:]' '\n' | sort | uniq -c
 ```
 
-image
+![alt text](image-8.png)
+
 ---
 
 ### 4. Alerting the Team
@@ -150,7 +149,7 @@ grep --color=always -r "password" ~/textlab
 grep -r "password" ~/textlab | mail -s "⚠️ ALERT: Password Found" you@example.com
 ```
 
-image
+![alt text](image-9.png)
 
 ---
 
