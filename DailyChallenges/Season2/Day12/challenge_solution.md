@@ -195,11 +195,15 @@ jobs -l
 renice 5 -p <PID>
 ```
 
+![alt text](image-8.png)
+
 3. Increase priority (requires sudo):
 
 ```bash
 sudo renice -5 -p <PID>
 ```
+
+![alt text](image-9.png)
 
 4. Verify:
 
@@ -208,9 +212,6 @@ ps -lp <PID> > ~/processlab/priority.txt
 ```
 
 ✅ Priority adjusted successfully.
-
-**📸 Screenshot:**
-`[Insert screenshot of ps -lp <PID> showing NI value changes]`
 
 ---
 
@@ -222,8 +223,7 @@ ps fax | grep -B5 cpu_hog > ~/processlab/hierarchy.txt
 
 ✅ Process hierarchy captured.
 
-**📸 Screenshot:**
-`[Insert screenshot showing hierarchy output with cpu_hog.sh under bash]`
+![alt text](image-10.png)
 
 ---
 
@@ -234,18 +234,20 @@ killall -15 cpu_hog mem_hog sleeper
 ps aux | grep -E 'cpu_hog|mem_hog|sleeper'
 ```
 
+![alt text](image-11.png)
+
 Check & kill:
 
 ```bash
 ps aux | grep cpu_hog
-killall -15 cpu_hog.sh
+#killall -15 cpu_hog.sh
+kill -15 $(pgrep -f cpu_hog)
 ps aux | grep cpu_hog
 ```
 
 ✅ All cpu\_hog.sh processes terminated.
 
-**📸 Screenshot:**
-`[Insert screenshot showing ps aux before and after killall]`
+![alt text](image-12.png)
 
 ---
 
@@ -253,26 +255,13 @@ ps aux | grep cpu_hog
 
 ```bash
 uptime >> ~/processlab/load.txt
-killall -9 sleeper.sh
+#killall -9 sleeper.sh
+kill -9 $(pgrep -f sleeper)
 ps aux > ~/processlab/final_processes.txt
 ```
 
 ✅ Final cleanup complete.
 
-**📸 Screenshot:**
-`[Insert screenshot of final uptime and ps aux results]`
-
----
-
-### 🔹 Document Findings
-
-In `~/processlab/notes.txt` we recorded:
-
-* **Most Stressful Process**: `mem_hog.sh` (consumed most memory).
-* **Load Improvement**: System load dropped significantly after terminating hog scripts.
-* **Lesson Learned**: Always try `SIGTERM (15)` first for safe cleanup before using `SIGKILL (9)`.
-
-**📸 Screenshot:**
-`[Insert screenshot showing notes.txt content]`
+![alt text](image-13.png)
 
 ---
