@@ -19,25 +19,30 @@ We executed the tasks in a test lab and captured the commands, outputs, and resu
 
 ```bash
 mkdir -p ~/ssh-lab && cd ~/ssh-lab
+vi ~/.ssh/config
 ```
+Add this to ssh directly
+Host rhel-2
+    HostName 98.81.59.8
+    User ec2-user
+    IdentityFile /home/ec2-user/ssh-lab/mykey.pem
 
 ✅ Workspace created.
 
-**📸 Screenshot:**
-`[Insert screenshot showing ssh-lab directory]`
+![alt text](image.png)
 
+![alt text](image-1.png)
 ---
 
 2. **Confirm current connectivity**
 
 ```bash
-ssh user@server "whoami && hostname"
+ssh ec2-user@rhel-2 "whoami && hostname"
 ```
 
 ✅ Verified remote access works.
 
-**📸 Screenshot:**
-`[Insert screenshot showing successful whoami and hostname output]`
+![alt text](image-2.png)
 
 ---
 
@@ -46,16 +51,15 @@ ssh user@server "whoami && hostname"
 1. **Generate key (ed25519)**
 
 ```bash
-ssh-keygen -t ed25519 -C "you@example.com"
+ssh-keygen -t ed25519 -C "swayam@gmail.com"
 ```
 
-* Saved in: `~/.ssh/id_ed25519`
-* Public key: `~/.ssh/id_ed25519.pub`
+![alt text](image-3.png)
 
 2. **Install public key**
 
 ```bash
-ssh-copy-id user@server
+ssh-copy-id ec2-user@rhel-2
 ```
 
 *(If copy-id not available, appended manually into `~/.ssh/authorized_keys` on server)*
@@ -63,25 +67,22 @@ ssh-copy-id user@server
 3. **Verify login**
 
 ```bash
-ssh -vvv user@server "echo OK && id -u && hostname"
+ssh -vvv ec2-user@rhel-2 "echo OK && id -u && hostname"
 ```
 
 ✅ Output showed:
 
-* `OK`
-* UID number (e.g., 1001)
-* Hostname
+![alt text](image-3.png)
 
 ✅ Debug log confirmed: *“Authentication succeeded (publickey)”*
 
 4. **Save to notes**
 
 ```bash
-echo "Authentication succeeded (publickey)" >> notes.md
+ssh -vvv ec2-user@rhel-2 "echo OK" 2>&1 | grep 'Authenticated to' >> notes.txt
 ```
 
-**📸 Screenshot:**
-`[Insert screenshot of ssh -vvv showing successful publickey auth]`
+![alt text](image-4.png)
 
 ---
 
@@ -93,18 +94,26 @@ echo "Authentication succeeded (publickey)" >> notes.md
 
 ```bash
 sudo ufw allow 2222/tcp
+sudo ufw enable
+sudo ufw reload
 ```
 
-* firewalld:
+* firewalld: 
 
 ```bash
+sudo yum install firewalld -y
+sudo systemctl enable --now firewalld
+sudo systemctl status firewalld
 sudo firewall-cmd --add-port=2222/tcp --permanent
 sudo firewall-cmd --reload
 ```
 
-2. **Edit `/etc/ssh/sshd_config`**
+![alt text](image-5.png)
+
+2. **Edit `vi /etc/ssh/sshd_config`**
 
 ```text
+Port 22
 Port 2222
 PermitRootLogin no
 PasswordAuthentication no
@@ -122,15 +131,22 @@ LogLevel VERBOSE
 ```bash
 sudo sshd -t
 sudo systemctl reload sshd
+sudo systemctl restart sshd
+
+sestatus
+sudo semanage port -a -t ssh_port_t -p tcp 2222
+sudo systemctl restart sshd
+
+
 ```
 
 4. **Test new port**
 
 ```bash
-ssh -p 2222 user@server "echo PORT_OK"
+ssh -p 2222 ec2-user@rhel-2 "echo PORT_OK"
 ```
 
-✅ Output: `PORT_OK`
+![alt text](image-6.png)
 
 5. **Remove old port (22)**
 
@@ -149,8 +165,7 @@ sudo firewall-cmd --reload
 
 ✅ SSH hardened.
 
-**📸 Screenshot:**
-`[Insert screenshot showing ssh on port 2222 working successfully]`
+![alt text](image-7.png)
 
 ---
 
@@ -160,14 +175,18 @@ sudo firewall-cmd --reload
 
 ```bash
 echo "hello-ssh" > hello.txt
-scp -P 2222 hello.txt user@server:/tmp/hello.txt
+scp -P 2222 hello.txt ec2-user@rhel-2:/tmp/hello.txt
 ```
+
+![alt text](image-8.png)
 
 2. **Download back**
 
 ```bash
-scp -P 2222 user@server:/tmp/hello.txt hello.remote.txt
+scp -P 2222 ec2-user@rhel-2:/tmp/hello.txt hello.remote.txt
 ```
+
+![alt text](image-9.png)
 
 3. **Verify integrity**
 
@@ -177,8 +196,7 @@ sha256sum hello.txt hello.remote.txt | tee checksums.txt
 
 ✅ Hashes matched. File transfer verified.
 
-**📸 Screenshot:**
-`[Insert screenshot showing identical sha256 hashes]`
+![alt text](image-10.png)
 
 ---
 
@@ -214,15 +232,19 @@ Match Group sftpusers
 4. **Validate & reload**
 
 ```bash
+sudo systemctl restart sshd
+# or on some systems
+sudo service sshd restart
 sudo sshd -t && sudo systemctl reload sshd
 ```
 
 5. **Test**
 
 ```bash
-ssh -p 2222 sftpuser@server   # fails (no shell)
-sftp -P 2222 sftpuser@server  # succeeds
+ssh -p 2222 sftpec2-user@rhel-2   # fails (no shell)
+sftp -P 2222 sftpec2-user@rhel-2  # succeeds
 ```
+sftp -i mykey.pem -P 2222 sftpec2-user@98.81.59.8
 
 ✅ User restricted to SFTP-only environment.
 
@@ -237,9 +259,9 @@ sftp -P 2222 sftpuser@server  # succeeds
 
 ```bash
 chmod 644 ~/.ssh/id_ed25519   # simulate wrong perms
-ssh user@server               # fails
+ssh ec2-user@rhel-2               # fails
 chmod 600 ~/.ssh/id_ed25519   # fix
-ssh user@server               # works
+ssh ec2-user@rhel-2               # works
 ```
 
 ✅ Fix: Correct private key permissions.
@@ -250,9 +272,9 @@ ssh user@server               # works
 
 ```bash
 sudo ufw deny 2222/tcp
-ssh -p 2222 user@server       # connection refused
+ssh -p 2222 ec2-user@rhel-2       # connection refused
 sudo ufw allow 2222/tcp
-ssh -p 2222 user@server       # works
+ssh -p 2222 ec2-user@rhel-2       # works
 ```
 
 ✅ Fix: Adjust firewall.
@@ -275,10 +297,10 @@ AllowUsers wronguser
 ### Case 4: Host key mismatch
 
 ```bash
-ssh user@server
+ssh ec2-user@rhel-2
 # ERROR: WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!
 ssh-keygen -R server_ip
-ssh user@server   # works after clearing known_hosts
+ssh ec2-user@rhel-2   # works after clearing known_hosts
 ```
 
 ✅ Fix: Remove bad key from `~/.ssh/known_hosts`.
