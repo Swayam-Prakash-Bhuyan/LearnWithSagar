@@ -200,7 +200,7 @@ sha256sum hello.txt hello.remote.txt | tee checksums.txt
 
 ---
 
-## Task D (Optional): SFTP-Only Restricted User
+## Task D (Optional): SFTP-Only Restricted User (Did not appear)
 
 1. **Create group & user**
 
@@ -248,9 +248,6 @@ sftp -i mykey.pem -P 2222 sftpec2-user@98.81.59.8
 
 ✅ User restricted to SFTP-only environment.
 
-**📸 Screenshot:**
-`[Insert screenshot showing failed ssh login and successful sftp login]`
-
 ---
 
 ## Task E: Induce & Fix Failures
@@ -263,8 +260,9 @@ ssh ec2-user@rhel-2               # fails
 chmod 600 ~/.ssh/id_ed25519   # fix
 ssh ec2-user@rhel-2               # works
 ```
+![alt text](image-11.png)
 
-✅ Fix: Correct private key permissions.
+![alt text](image-12.png)
 
 ---
 
@@ -307,8 +305,7 @@ ssh ec2-user@rhel-2   # works after clearing known_hosts
 
 ---
 
-**📸 Screenshot (for Task E):**
-`[Insert screenshots showing failures and fixes for each case]`
+screenshot.png
 
 ---
 
